@@ -18,10 +18,11 @@ var defaultFormat = func(Values ...interface{}) string {
 	return fmt.Sprint(formattedArgs...)
 }
 
+// DefaultLogger 默认Logger
 var DefaultLogger Logger = PrintfLogger(os.Stdout,defaultFormat)
-
+// LogFormatter log格式化func
 type LogFormatter func(Values ...interface{}) string
-
+// PrintLogger ...
 type PrintLogger struct {
 	out io.Writer
 	Format LogFormatter

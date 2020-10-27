@@ -9,7 +9,24 @@ type Schedule interface {
 	Next(time.Time) time.Time
 }
 
+type ParseOption int
+
 // ScheduleParser is Schedule Parser interface
 type ScheduleParser interface {
 	Parse(spec string) (Schedule, error)
 }
+
+type Parser struct{
+	options ParseOption
+}
+
+func NewParser(options ParseOption) Parser{
+	return Parser{options}
+}
+
+func (P Parser) Parse(spec string) (Schedule, error){
+	return &SpecSchedule{}, nil
+}
+
+var standardParser = NewParser(1)
+
