@@ -1,9 +1,9 @@
 package cron
 
 import (
+	"sort"
 	"sync"
 	"time"
-	"sort"
 )
 
 // TaskID is Task ID
@@ -49,45 +49,45 @@ type Cron struct {
 	logger    Logger
 	location  *time.Location
 	parser    ScheduleParser
-	nextID 	  TaskID
+	nextID    TaskID
 }
 
 // Info log
-func (c *Cron) Info(value ...interface{}){
+func (c *Cron) Info(value ...interface{}) {
 	c.logger.Info(value...)
 }
 
 // Error log
-func (c *Cron) Error(err error,value ...interface{}){
-	c.logger.Error(err,value...)
+func (c *Cron) Error(err error, value ...interface{}) {
+	c.logger.Error(err, value...)
 }
 
 type FuncJob func()
 
 func (f FuncJob) Run() { f() }
 
-func (c *Cron) AddFunc(spec string,f func())(TaskID,error){
+func (c *Cron) AddFunc(spec string, f func()) (TaskID, error) {
 	return c.AddJob(spec, FuncJob(f))
 }
 
 // AddJob is The core method of adding Task entities
-func (c *Cron) AddJob(spec string,job Job) (TaskID, error){
+func (c *Cron) AddJob(spec string, job Job) (TaskID, error) {
 	schedule, err := c.parser.Parse(spec)
 	if err != nil {
 		return 0, err
 	}
-	return c.Schedule(schedule,job),nil
+	return c.Schedule(schedule, job), nil
 }
 
-// Schedule add 
+// Schedule add
 func (c *Cron) Schedule(schedule Schedule, cmd Job) TaskID {
 	c.runningMu.Lock()
 	defer c.runningMu.Unlock()
 	c.nextID++
 	task := &Task{
-		ID:         c.nextID,
-		Schedule:   schedule,
-		Job:        cmd,
+		ID:       c.nextID,
+		Schedule: schedule,
+		Job:      cmd,
 	}
 	if !c.isRunning {
 		c.tasks = append(c.tasks, task)
@@ -100,16 +100,16 @@ func (c *Cron) Schedule(schedule Schedule, cmd Job) TaskID {
 // New returns a new Cron job runner, modified by the given options
 func New() *Cron {
 	c := &Cron{
-		tasks: nil,
-		logger:DefaultLogger,
-		parser:standardParser,
-		location:time.Local,
+		tasks:    nil,
+		logger:   DefaultLogger,
+		parser:   standardParser,
+		location: time.Local,
 	}
 	return c
 }
 
 // now return location time
-func (c *Cron) now() time.Time{
+func (c *Cron) now() time.Time {
 	return time.Now().In(c.location)
 }
 
@@ -124,21 +124,32 @@ func (c *Cron) Start() {
 	go c.run()
 }
 
+func (c *Cron) Run() {
+	c.runningMu.Lock()
+	if c.isRunning {
+		c.runningMu.Unlock()
+		return
+	}
+	c.isRunning = true
+	c.runningMu.Unlock()
+	c.run()
+}
+
 func (c *Cron) startJob(j Job) {
 	go func() {
 		j.Run()
 	}()
 }
 
-// run 
+// run
 // step1 遍历全部task
-func (c *Cron) run(){
+func (c *Cron) run() {
 	c.Info("Start")
 
 	now := c.now()
 	for _, task := range c.tasks {
 		task.Next = task.Schedule.Next(now)
-		c.Info("schedule", "now",now,"task",task.ID,"next",task.Next)
+		c.Info("schedule", "now", now, "task", task.ID, "next", task.Next)
 	}
 
 	for {
@@ -157,6 +168,7 @@ func (c *Cron) run(){
 
 		for {
 			select {
+			//定时器监听触发
 			case now = <-timer.C:
 				now = now.In(c.location)
 				c.logger.Info("wake", "now", now)
@@ -173,6 +185,7 @@ func (c *Cron) run(){
 					c.logger.Info("run", "now", now, "entry", e.ID, "next", e.Next)
 				}
 
+			//服务启动之后新增cron
 			case newEntry := <-c.add:
 				timer.Stop()
 				now = c.now()
