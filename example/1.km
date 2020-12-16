@@ -1,0 +1,308 @@
+{
+    "root": {
+        "data": {
+            "id": "c7s7xuc38ao0",
+            "created": 1607919633795,
+            "text": "cron",
+            "expandState": "expand"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "c7sa8tkxo4w0",
+                    "created": 1607926136379,
+                    "text": "结构体初始化",
+                    "layout_mind_offset": {
+                        "x": 24,
+                        "y": -71
+                    },
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "c7sac4gu9d40",
+                            "created": 1607926395168,
+                            "text": "核心结构体Cron",
+                            "layout_right_offset": {
+                                "x": 29.000000000000057,
+                                "y": -96.99999774085154
+                            },
+                            "priority": 1,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sahcftmqg0",
+                            "created": 1607926804342,
+                            "text": "任务Job结构体",
+                            "layout_right_offset": {
+                                "x": 29,
+                                "y": -95
+                            },
+                            "priority": 2,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7saphuprmo0",
+                            "created": 1607927443040,
+                            "text": "调度任务",
+                            "layout_right_offset": {
+                                "x": 28,
+                                "y": -92
+                            },
+                            "priority": 3,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sapv942zs0",
+                            "created": 1607927472208,
+                            "text": "时间格式解析器",
+                            "layout_right_offset": {
+                                "x": 26,
+                                "y": -96
+                            },
+                            "priority": 4,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "c7sa9yx3ffs0",
+                    "created": 1607926226362,
+                    "text": "添加job",
+                    "layout_mind_offset": {
+                        "x": 47.00000472174719,
+                        "y": -157
+                    },
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "c7sb1u4fmko0",
+                            "created": 1607928410119,
+                            "text": "AddJob(核心方法)",
+                            "priority": 1,
+                            "progress": null,
+                            "background": "#ffffff",
+                            "expandState": "expand"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c7sb6b3dj1c0",
+                                    "created": 1607928760517,
+                                    "text": "添加到Cron的Job切片",
+                                    "layout_right_offset": {
+                                        "x": 70.00000000000006,
+                                        "y": -5
+                                    },
+                                    "expandState": "expand"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "c7saw8tlcps0",
+                            "created": 1607927971930,
+                            "text": "AddFunc（基于AddJob）",
+                            "layout_right_offset": {
+                                "x": -2,
+                                "y": 2
+                            },
+                            "priority": 2,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "c7saak6uonc0",
+                    "created": 1607926272665,
+                    "text": "启动服务",
+                    "layout_mind_offset": {
+                        "x": 329,
+                        "y": 241
+                    },
+                    "expandState": "expand"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "c7sb5oig6og0",
+                            "created": 1607928711362,
+                            "text": "初始化循环每个Job的下次执行时间",
+                            "layout_right_offset": {
+                                "x": 440,
+                                "y": -13
+                            },
+                            "priority": 1,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbb8sec8o0",
+                            "created": 1607929147320,
+                            "text": "起一个死循环",
+                            "layout_right_offset": {
+                                "x": 323,
+                                "y": -9
+                            },
+                            "priority": 2,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbbyo8uwg0",
+                            "created": 1607929203666,
+                            "text": "对每个Job排序，取最近执行的Job",
+                            "layout_right_offset": {
+                                "x": 433,
+                                "y": -7
+                            },
+                            "priority": 3,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbdk4j3340",
+                            "created": 1607929328727,
+                            "text": "设置定时器",
+                            "layout_right_offset": {
+                                "x": 313,
+                                "y": -6
+                            },
+                            "priority": 4,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbdw6wi600",
+                            "created": 1607929354991,
+                            "text": "循环监听channel（包括定时器、新增Job、移除Job、服务停止）",
+                            "layout_right_offset": {
+                                "x": 602,
+                                "y": 4
+                            },
+                            "priority": 5,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbfuyaclc0",
+                            "created": 1607929509022,
+                            "text": "定时器触发",
+                            "layout_right_offset": {
+                                "x": 313,
+                                "y": -3.0000000000000284
+                            },
+                            "priority": 6,
+                            "expandState": "expand"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c7sbgfbuyao0",
+                                    "created": 1607929553378,
+                                    "text": "执行任务",
+                                    "layout_right_offset": {
+                                        "x": 292.00000000000006,
+                                        "y": 5
+                                    },
+                                    "priority": 1,
+                                    "expandState": "expand"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "c7sbgk9qshk0",
+                                    "created": 1607929564134,
+                                    "text": "更新下次执行时间",
+                                    "layout_right_offset": {
+                                        "x": 336.0000000000001,
+                                        "y": 30
+                                    },
+                                    "priority": 2,
+                                    "expandState": "expand"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "c7sbojekuug0",
+                            "created": 1607930189163,
+                            "text": "触发新增Job",
+                            "layout_right_offset": {
+                                "x": 320,
+                                "y": -9
+                            },
+                            "priority": 7,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sboqjmp000",
+                            "created": 1607930204706,
+                            "text": "触发移除Job",
+                            "layout_right_offset": {
+                                "x": 320,
+                                "y": 4
+                            },
+                            "priority": 8,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "c7sboysmv6o0",
+                            "created": 1607930222665,
+                            "text": "触发服务关闭",
+                            "layout_right_offset": {
+                                "x": 325,
+                                "y": 15
+                            },
+                            "priority": 9,
+                            "expandState": "expand"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fish",
+    "version": "1.4.43"
+}
